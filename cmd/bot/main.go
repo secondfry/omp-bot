@@ -6,7 +6,7 @@ import (
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 	"github.com/joho/godotenv"
-	"github.com/secondfry/omp-bot/internal/app/router"
+	"github.com/ozonmp/omp-bot/internal/app/router"
 )
 
 func main() {

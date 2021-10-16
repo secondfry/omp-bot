@@ -4,8 +4,8 @@ import (
 	"log"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
-	theService "github.com/secondfry/omp-bot/internal/app/commands/insurance/theservice"
-	"github.com/secondfry/omp-bot/internal/app/path"
+	theService "github.com/ozonmp/omp-bot/internal/app/commands/insurance/theservice"
+	"github.com/ozonmp/omp-bot/internal/app/path"
 )
 
 type Commander interface {

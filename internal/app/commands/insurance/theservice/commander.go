@@ -4,8 +4,8 @@ import (
 	"log"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
-	"github.com/secondfry/omp-bot/internal/app/path"
-	"github.com/secondfry/omp-bot/internal/service/insurance/theservice"
+	"github.com/ozonmp/omp-bot/internal/app/path"
+	"github.com/ozonmp/omp-bot/internal/service/insurance/theservice"
 )
 
 type InsuranceTheServiceCommander struct {
