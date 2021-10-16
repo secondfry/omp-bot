@@ -1,5 +1,9 @@
 package theservice
 
+import (
+	"errors"
+)
+
 type TheServiceService interface {
 	Describe(theservice_id uint64) (*TheService, error)
 	List(cursor uint64, limit uint64) []TheService
@@ -15,6 +19,10 @@ func NewDummyTheServiceService() *DummyTheServiceService {
 }
 
 func (service *DummyTheServiceService) Describe(theservice_id uint64) (*TheService, error) {
+	if theservice_id >= uint64(len(allEntities)) {
+		return nil, errors.New("index out of range")
+	}
+
 	return &allEntities[theservice_id], nil
 }
 
