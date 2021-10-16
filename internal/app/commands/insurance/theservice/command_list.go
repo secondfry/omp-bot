@@ -10,7 +10,7 @@ import (
 func (c *InsuranceTheServiceCommander) List(inputMessage *tgbotapi.Message) {
 	outputMsgText := "Here all the products: \n\n"
 
-	products := c.theserviceService.List()
+	products := c.theserviceService.List(0, 5)
 	for _, p := range products {
 		outputMsgText += p.Title
 		outputMsgText += "\n"

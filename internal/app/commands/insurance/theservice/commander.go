@@ -10,13 +10,13 @@ import (
 
 type InsuranceTheServiceCommander struct {
 	bot               *tgbotapi.BotAPI
-	theserviceService *theservice.Service
+	theserviceService *theservice.DummyTheServiceService
 }
 
 func NewInsuranceTheServiceCommander(
 	bot *tgbotapi.BotAPI,
 ) *InsuranceTheServiceCommander {
-	theserviceService := theservice.NewService()
+	theserviceService := theservice.NewDummyTheServiceService()
 
 	return &InsuranceTheServiceCommander{
 		bot:               bot,
