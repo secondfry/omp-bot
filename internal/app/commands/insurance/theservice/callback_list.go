@@ -1,4 +1,4 @@
-package subdomain
+package theservice
 
 import (
 	"encoding/json"
@@ -12,7 +12,7 @@ type CallbackListData struct {
 	Offset int `json:"offset"`
 }
 
-func (c *InsuranceSubdomainCommander) CallbackList(callback *tgbotapi.CallbackQuery, callbackPath path.CallbackPath) {
+func (c *InsuranceTheServiceCommander) CallbackList(callback *tgbotapi.CallbackQuery, callbackPath path.CallbackPath) {
 	parsedData := CallbackListData{}
 	json.Unmarshal([]byte(callbackPath.CallbackData), &parsedData)
 	msg := tgbotapi.NewMessage(

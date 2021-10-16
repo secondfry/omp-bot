@@ -4,6 +4,7 @@ import (
 	"log"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
+	"github.com/secondfry/omp-bot/internal/app/commands/demo"
 	"github.com/secondfry/omp-bot/internal/app/commands/insurance"
 	"github.com/secondfry/omp-bot/internal/app/path"
 )

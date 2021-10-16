@@ -1,4 +1,4 @@
-package subdomain
+package theservice
 
 import (
 	"log"
@@ -7,7 +7,7 @@ import (
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 )
 
-func (c *InsuranceSubdomainCommander) Get(inputMessage *tgbotapi.Message) {
+func (c *InsuranceTheServiceCommander) Get(inputMessage *tgbotapi.Message) {
 	args := inputMessage.CommandArguments()
 
 	idx, err := strconv.Atoi(args)
@@ -16,7 +16,7 @@ func (c *InsuranceSubdomainCommander) Get(inputMessage *tgbotapi.Message) {
 		return
 	}
 
-	product, err := c.subdomainService.Get(idx)
+	product, err := c.theserviceService.Get(idx)
 	if err != nil {
 		log.Printf("fail to get product with idx %d: %v", idx, err)
 		return

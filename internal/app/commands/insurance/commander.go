@@ -4,7 +4,7 @@ import (
 	"log"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
-	"github.com/secondfry/omp-bot/internal/app/commands/insurance/subdomain"
+	theService "github.com/secondfry/omp-bot/internal/app/commands/insurance/theservice"
 	"github.com/secondfry/omp-bot/internal/app/path"
 )
 
@@ -14,8 +14,8 @@ type Commander interface {
 }
 
 type InsuranceCommander struct {
-	bot                *tgbotapi.BotAPI
-	subdomainCommander Commander
+	bot                 *tgbotapi.BotAPI
+	theServiceCommander Commander
 }
 
 func NewInsuranceCommander(
@@ -23,15 +23,15 @@ func NewInsuranceCommander(
 ) *InsuranceCommander {
 	return &InsuranceCommander{
 		bot: bot,
-		// subdomainCommander
-		subdomainCommander: subdomain.NewInsuranceSubdomainCommander(bot),
+		// theServiceCommander
+		theServiceCommander: theService.NewInsuranceTheServiceCommander(bot),
 	}
 }
 
 func (c *InsuranceCommander) HandleCallback(callback *tgbotapi.CallbackQuery, callbackPath path.CallbackPath) {
 	switch callbackPath.Subdomain {
-	case "subdomain":
-		c.subdomainCommander.HandleCallback(callback, callbackPath)
+	case "theservice":
+		c.theServiceCommander.HandleCallback(callback, callbackPath)
 	default:
 		log.Printf("InsuranceCommander.HandleCallback: unknown subdomain - %s", callbackPath.Subdomain)
 	}
@@ -39,8 +39,8 @@ func (c *InsuranceCommander) HandleCallback(callback *tgbotapi.CallbackQuery, ca
 
 func (c *InsuranceCommander) HandleCommand(msg *tgbotapi.Message, commandPath path.CommandPath) {
 	switch commandPath.Subdomain {
-	case "subdomain":
-		c.subdomainCommander.HandleCommand(msg, commandPath)
+	case "theservice":
+		c.theServiceCommander.HandleCommand(msg, commandPath)
 	default:
 		log.Printf("InsuranceCommander.HandleCommand: unknown subdomain - %s", commandPath.Subdomain)
 	}
