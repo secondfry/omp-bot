@@ -1,4 +1,4 @@
-package subdomain
+package theservice
 
 import (
 	"log"
@@ -6,7 +6,7 @@ import (
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 )
 
-func (c *InsuranceSubdomainCommander) Default(inputMessage *tgbotapi.Message) {
+func (c *InsuranceTheServiceCommander) Default(inputMessage *tgbotapi.Message) {
 	log.Printf("[%s] %s", inputMessage.From.UserName, inputMessage.Text)
 
 	msg := tgbotapi.NewMessage(inputMessage.Chat.ID, "You wrote: "+inputMessage.Text)

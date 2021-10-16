@@ -1,4 +1,4 @@
-package subdomain
+package theservice
 
 import (
 	"encoding/json"
@@ -7,10 +7,10 @@ import (
 	"github.com/secondfry/omp-bot/internal/app/path"
 )
 
-func (c *InsuranceSubdomainCommander) List(inputMessage *tgbotapi.Message) {
+func (c *InsuranceTheServiceCommander) List(inputMessage *tgbotapi.Message) {
 	outputMsgText := "Here all the products: \n\n"
 
-	products := c.subdomainService.List()
+	products := c.theserviceService.List()
 	for _, p := range products {
 		outputMsgText += p.Title
 		outputMsgText += "\n"
@@ -24,7 +24,7 @@ func (c *InsuranceSubdomainCommander) List(inputMessage *tgbotapi.Message) {
 
 	callbackPath := path.CallbackPath{
 		Domain:       "insurance",
-		Subdomain:    "subdomain",
+		Subdomain:    "theservice",
 		CallbackName: "list",
 		CallbackData: string(serializedData),
 	}

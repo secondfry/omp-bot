@@ -1,6 +1,6 @@
-package subdomain
+package theservice
 
-var allEntities = []Subdomain{
+var allEntities = []TheService{
 	{Title: "one"},
 	{Title: "two"},
 	{Title: "three"},
@@ -8,6 +8,6 @@ var allEntities = []Subdomain{
 	{Title: "five"},
 }
 
-type Subdomain struct {
+type TheService struct {
 	Title string
 }
