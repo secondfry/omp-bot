@@ -29,7 +29,14 @@ func (service *DummyTheServiceService) Describe(theservice_id uint64) (*TheServi
 }
 
 func (service *DummyTheServiceService) List(cursor uint64, limit uint64) []TheService {
-	return allEntities[cursor : cursor+limit]
+	end := cursor + limit
+	size := uint64(len(allEntities))
+
+	if end > size {
+		end = size
+	}
+
+	return allEntities[cursor:end]
 }
 
 func (service *DummyTheServiceService) Create(theservice TheService) (uint64, error) {
@@ -59,4 +66,12 @@ func (service *DummyTheServiceService) CheckId(theservice_id uint64) (bool, erro
 	}
 
 	return true, nil
+}
+
+func (service *DummyTheServiceService) HasBefore(idx uint64) bool {
+	return idx > 0
+}
+
+func (service *DummyTheServiceService) HasAfter(idx uint64) bool {
+	return idx < uint64(len(allEntities))
 }

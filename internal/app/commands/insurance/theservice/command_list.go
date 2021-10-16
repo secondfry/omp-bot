@@ -7,19 +7,28 @@ import (
 	"github.com/ozonmp/omp-bot/internal/app/path"
 )
 
-func (c *InsuranceTheServiceCommander) List(inputMessage *tgbotapi.Message) {
+const START = 0
+const PAGER = 3
+
+func (c *InsuranceTheServiceCommander) ListText(cursor uint64, limit uint64) string {
 	outputMsgText := "Here all the products: \n\n"
 
-	products := c.theserviceService.List(0, 5)
+	products := c.theserviceService.List(cursor, limit)
 	for _, p := range products {
 		outputMsgText += p.Title
 		outputMsgText += "\n"
 	}
 
-	msg := tgbotapi.NewMessage(inputMessage.Chat.ID, outputMsgText)
+	return outputMsgText
+}
+
+func PrepareCallbackPath(idx int) string {
+	if idx < 0 {
+		idx = 0
+	}
 
 	serializedData, _ := json.Marshal(CallbackListData{
-		Offset: 21,
+		Offset: idx,
 	})
 
 	callbackPath := path.CallbackPath{
@@ -29,11 +38,30 @@ func (c *InsuranceTheServiceCommander) List(inputMessage *tgbotapi.Message) {
 		CallbackData: string(serializedData),
 	}
 
-	msg.ReplyMarkup = tgbotapi.NewInlineKeyboardMarkup(
-		tgbotapi.NewInlineKeyboardRow(
-			tgbotapi.NewInlineKeyboardButtonData("Next page", callbackPath.String()),
-		),
+	return callbackPath.String()
+}
+
+func (c *InsuranceTheServiceCommander) ListKeyboard(cursor uint64) tgbotapi.InlineKeyboardMarkup {
+	var row []tgbotapi.InlineKeyboardButton
+
+	if c.theserviceService.HasBefore(cursor) {
+		row = append(row, tgbotapi.NewInlineKeyboardButtonData("Prev page", PrepareCallbackPath(int(cursor)-PAGER)))
+	}
+
+	if c.theserviceService.HasAfter(cursor + PAGER) {
+		row = append(row, tgbotapi.NewInlineKeyboardButtonData("Next page", PrepareCallbackPath(int(cursor)+PAGER)))
+	}
+
+	markup := tgbotapi.NewInlineKeyboardMarkup(
+		row,
 	)
 
+	return markup
+}
+
+func (c *InsuranceTheServiceCommander) List(inputMessage *tgbotapi.Message) {
+	outputMsgText := c.ListText(START, PAGER)
+	msg := tgbotapi.NewMessage(inputMessage.Chat.ID, outputMsgText)
+	msg.ReplyMarkup = c.ListKeyboard(START)
 	c.bot.Send(msg)
 }
