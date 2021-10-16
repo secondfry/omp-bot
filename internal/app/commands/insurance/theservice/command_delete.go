@@ -1,13 +1,14 @@
 package theservice
 
 import (
+	"fmt"
 	"log"
 	"strconv"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 )
 
-func (c *InsuranceTheServiceCommander) Get(inputMessage *tgbotapi.Message) {
+func (c *InsuranceTheServiceCommander) Delete(inputMessage *tgbotapi.Message) {
 	args := inputMessage.CommandArguments()
 
 	idx, err := strconv.Atoi(args)
@@ -16,15 +17,15 @@ func (c *InsuranceTheServiceCommander) Get(inputMessage *tgbotapi.Message) {
 		return
 	}
 
-	product, err := c.service.Describe(uint64(idx))
-	if err != nil {
+	status, err := c.service.Remove((uint64(idx)))
+	if !status || err != nil {
 		log.Printf("fail to get product with idx %d: %v", idx, err)
 		return
 	}
 
 	msg := tgbotapi.NewMessage(
 		inputMessage.Chat.ID,
-		product.String(),
+		fmt.Sprintf("Removed %d", idx),
 	)
 
 	c.bot.Send(msg)

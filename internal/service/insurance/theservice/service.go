@@ -10,6 +10,9 @@ type TheServiceService interface {
 	Create(TheService) (uint64, error)
 	Update(theservice_id uint64, theservice TheService) error
 	Remove(theservice_id uint64) (bool, error)
+
+	HasBefore(idx uint64) bool
+	HasAfter(idx uint64) bool
 }
 
 type DummyTheServiceService struct{}

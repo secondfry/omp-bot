@@ -5,22 +5,31 @@ import (
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 	"github.com/ozonmp/omp-bot/internal/app/path"
-	"github.com/ozonmp/omp-bot/internal/service/insurance/theservice"
+	service "github.com/ozonmp/omp-bot/internal/service/insurance/theservice"
 )
 
+type TheServiceCommander interface {
+	Help(inputMsg *tgbotapi.Message)
+	Get(inputMsg *tgbotapi.Message)
+	List(inputMsg *tgbotapi.Message)
+	Delete(inputMsg *tgbotapi.Message)
+
+	New(inputMsg *tgbotapi.Message)  // return error not implemented
+	Edit(inputMsg *tgbotapi.Message) // return error not implemented
+}
+
 type InsuranceTheServiceCommander struct {
-	bot               *tgbotapi.BotAPI
-	theserviceService *theservice.DummyTheServiceService
+	bot     *tgbotapi.BotAPI
+	service service.TheServiceService
 }
 
 func NewInsuranceTheServiceCommander(
 	bot *tgbotapi.BotAPI,
+	service service.TheServiceService,
 ) *InsuranceTheServiceCommander {
-	theserviceService := theservice.NewDummyTheServiceService()
-
 	return &InsuranceTheServiceCommander{
-		bot:               bot,
-		theserviceService: theserviceService,
+		bot:     bot,
+		service: service,
 	}
 }
 
@@ -37,10 +46,12 @@ func (c *InsuranceTheServiceCommander) HandleCommand(msg *tgbotapi.Message, comm
 	switch commandPath.CommandName {
 	case "help":
 		c.Help(msg)
-	case "list":
-		c.List(msg)
 	case "get":
 		c.Get(msg)
+	case "list":
+		c.List(msg)
+	case "delete":
+		c.Delete(msg)
 	default:
 		c.Default(msg)
 	}
