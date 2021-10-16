@@ -11,12 +11,12 @@ func (c *InsuranceTheServiceCommander) Get(inputMessage *tgbotapi.Message) {
 	args := inputMessage.CommandArguments()
 
 	idx, err := strconv.Atoi(args)
-	if err != nil {
+	if idx < 0 || err != nil {
 		log.Println("wrong args", args)
 		return
 	}
 
-	product, err := c.theserviceService.Get(idx)
+	product, err := c.theserviceService.Describe(uint64(idx))
 	if err != nil {
 		log.Printf("fail to get product with idx %d: %v", idx, err)
 		return
