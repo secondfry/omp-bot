@@ -19,8 +19,10 @@ func NewDummyTheServiceService() *DummyTheServiceService {
 }
 
 func (service *DummyTheServiceService) Describe(theservice_id uint64) (*TheService, error) {
-	if theservice_id >= uint64(len(allEntities)) {
-		return nil, errors.New("index out of range")
+	check, err := service.CheckId(theservice_id)
+
+	if !check || err != nil {
+		return nil, err
 	}
 
 	return &allEntities[theservice_id], nil
@@ -41,6 +43,20 @@ func (service *DummyTheServiceService) Update(theservice_id uint64, theservice T
 }
 
 func (service *DummyTheServiceService) Remove(theservice_id uint64) (bool, error) {
+	check, err := service.CheckId(theservice_id)
+
+	if !check || err != nil {
+		return false, err
+	}
+
 	allEntities = append(allEntities[:theservice_id], allEntities[theservice_id+1:]...)
+	return true, nil
+}
+
+func (service *DummyTheServiceService) CheckId(theservice_id uint64) (bool, error) {
+	if theservice_id >= uint64(len(allEntities)) {
+		return false, errors.New("index out of range")
+	}
+
 	return true, nil
 }
