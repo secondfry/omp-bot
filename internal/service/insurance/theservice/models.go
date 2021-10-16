@@ -11,3 +11,7 @@ var allEntities = []TheService{
 type TheService struct {
 	Title string
 }
+
+func (service *TheService) String() string {
+	return service.Title
+}
