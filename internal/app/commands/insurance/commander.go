@@ -4,8 +4,9 @@ import (
 	"log"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
-	theService "github.com/ozonmp/omp-bot/internal/app/commands/insurance/theservice"
+	theserviceCommands "github.com/ozonmp/omp-bot/internal/app/commands/insurance/theservice"
 	"github.com/ozonmp/omp-bot/internal/app/path"
+	theserviceService "github.com/ozonmp/omp-bot/internal/service/insurance/theservice"
 )
 
 type Commander interface {
@@ -21,10 +22,12 @@ type InsuranceCommander struct {
 func NewInsuranceCommander(
 	bot *tgbotapi.BotAPI,
 ) *InsuranceCommander {
+	dummyTheService := theserviceService.NewDummyTheServiceService()
+
 	return &InsuranceCommander{
 		bot: bot,
 		// theServiceCommander
-		theServiceCommander: theService.NewInsuranceTheServiceCommander(bot),
+		theServiceCommander: theserviceCommands.NewInsuranceTheServiceCommander(bot, dummyTheService),
 	}
 }
 
