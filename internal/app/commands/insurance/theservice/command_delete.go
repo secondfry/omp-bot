@@ -1,32 +1,36 @@
 package theservice
 
 import (
+	"errors"
 	"fmt"
-	"log"
 	"strconv"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 )
 
-func (c *InsuranceTheServiceCommander) Delete(inputMessage *tgbotapi.Message) {
-	args := inputMessage.CommandArguments()
+func (c *InsuranceTheServiceCommander) Delete(msg *tgbotapi.Message) error {
+	data := msg.CommandArguments()
 
-	idx, err := strconv.Atoi(args)
+	if data == "" {
+		c.bot.Send(tgbotapi.NewMessage(msg.Chat.ID, "Please provide arguments, like:\n/get__insurance__theservice 2"))
+		return errors.New("empty data")
+	}
+
+	idx, err := strconv.ParseInt(data, 10, 0)
 	if idx < 0 || err != nil {
-		log.Println("wrong args", args)
-		return
+		c.bot.Send(tgbotapi.NewMessage(msg.Chat.ID, fmt.Sprintf("Unable to parse ID: %s", err)))
+		return err
 	}
 
 	status, err := c.service.Remove((uint64(idx)))
 	if !status || err != nil {
-		log.Printf("fail to get product with idx %d: %v", idx, err)
-		return
+		c.bot.Send(tgbotapi.NewMessage(msg.Chat.ID, fmt.Sprintf("Unable remove TheService: %s", err)))
+		return err
 	}
 
-	msg := tgbotapi.NewMessage(
-		inputMessage.Chat.ID,
+	c.bot.Send(tgbotapi.NewMessage(
+		msg.Chat.ID,
 		fmt.Sprintf("Removed %d", idx),
-	)
-
-	c.bot.Send(msg)
+	))
+	return nil
 }
