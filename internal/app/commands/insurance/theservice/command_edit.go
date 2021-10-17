@@ -29,7 +29,7 @@ func (c *InsuranceTheServiceCommander) Edit(msg *tgbotapi.Message) error {
 	}
 
 	idx, err := strconv.ParseInt(parts[0], 10, 0)
-	if err != nil {
+	if idx < 0 || err != nil {
 		c.bot.Send(tgbotapi.NewMessage(msg.Chat.ID, fmt.Sprintf("Unable to parse ID: %s", err)))
 		return err
 	}
