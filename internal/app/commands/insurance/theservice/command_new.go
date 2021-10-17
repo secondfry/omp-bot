@@ -2,6 +2,7 @@ package theservice
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
@@ -11,9 +12,13 @@ import (
 func (c *InsuranceTheServiceCommander) New(msg *tgbotapi.Message) error {
 	newservice := theservice.TheService{}
 
-	println(msg.Text)
+	data := msg.CommandArguments()
+	if data == "" {
+		c.bot.Send(tgbotapi.NewMessage(msg.Chat.ID, "Please provide arguments, like:\n/new__insurance__theservice {\"title\":\"example\"}"))
+		return errors.New("empty data")
+	}
 
-	err := json.Unmarshal([]byte(msg.Text), &newservice)
+	err := json.Unmarshal([]byte(data), &newservice)
 	if err != nil {
 		c.bot.Send(tgbotapi.NewMessage(msg.Chat.ID, fmt.Sprintf("Couldn't parse JSON: %s", err)))
 		return err
