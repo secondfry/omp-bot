@@ -12,7 +12,7 @@ func (c *InsuranceTheServiceCommander) Delete(msg *tgbotapi.Message) error {
 	data := msg.CommandArguments()
 
 	if data == "" {
-		c.bot.Send(tgbotapi.NewMessage(msg.Chat.ID, "Please provide arguments, like:\n/get__insurance__theservice 2"))
+		c.bot.Send(tgbotapi.NewMessage(msg.Chat.ID, "Please provide arguments, like:\n/delete__insurance__theservice 2"))
 		return errors.New("empty data")
 	}
 
