@@ -54,7 +54,7 @@ func (c *InsuranceTheServiceCommander) HandleCommand(msg *tgbotapi.Message, comm
 		c.Delete(msg)
 	case "new":
 		c.New(msg)
-	case "Edit":
+	case "edit":
 		c.Edit(msg)
 	default:
 		c.Default(msg)
