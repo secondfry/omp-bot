@@ -28,9 +28,9 @@ func (c *InsuranceTheServiceCommander) Delete(msg *tgbotapi.Message) error {
 		return err
 	}
 
-	c.bot.Send(tgbotapi.NewMessage(
+	_, err = c.bot.Send(tgbotapi.NewMessage(
 		msg.Chat.ID,
 		fmt.Sprintf("Removed %d", idx),
 	))
-	return nil
+	return err
 }

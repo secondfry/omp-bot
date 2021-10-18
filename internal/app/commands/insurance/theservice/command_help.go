@@ -12,8 +12,8 @@ var help = `/help__insurance__theservice — print list of commands
 /new__insurance__theservice <json> — create a new entity
 /edit__insurance__theservice <idx> <json> — edit an entity`
 
-func (c *InsuranceTheServiceCommander) Help(inputMessage *tgbotapi.Message) {
+func (c *InsuranceTheServiceCommander) Help(inputMessage *tgbotapi.Message) error {
 	msg := tgbotapi.NewMessage(inputMessage.Chat.ID, help)
-
-	c.bot.Send(msg)
+	_, err := c.bot.Send(msg)
+	return err
 }

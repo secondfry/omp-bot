@@ -25,6 +25,6 @@ func (c *InsuranceTheServiceCommander) CallbackList(callback *tgbotapi.CallbackQ
 	markup := c.ListKeyboard(uint64(parsedData.Offset))
 	msg.ReplyMarkup = &markup
 
-	c.bot.Send(msg)
-	return nil
+	_, err = c.bot.Send(msg)
+	return err
 }

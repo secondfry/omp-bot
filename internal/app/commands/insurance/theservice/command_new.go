@@ -30,6 +30,6 @@ func (c *InsuranceTheServiceCommander) New(msg *tgbotapi.Message) error {
 		return err
 	}
 
-	c.bot.Send(tgbotapi.NewMessage(msg.Chat.ID, fmt.Sprintf("Created #%d", idx)))
-	return nil
+	_, err = c.bot.Send(tgbotapi.NewMessage(msg.Chat.ID, fmt.Sprintf("Created #%d", idx)))
+	return err
 }
