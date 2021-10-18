@@ -16,13 +16,13 @@ func (c *InsuranceTheServiceCommander) Delete(msg *tgbotapi.Message) error {
 		return errors.New("empty data")
 	}
 
-	idx, err := strconv.ParseInt(data, 10, 0)
-	if idx < 0 || err != nil {
+	idx, err := strconv.ParseUint(data, 10, 64)
+	if err != nil {
 		c.bot.Send(tgbotapi.NewMessage(msg.Chat.ID, fmt.Sprintf("Unable to parse ID: %s", err)))
 		return err
 	}
 
-	status, err := c.service.Remove((uint64(idx)))
+	status, err := c.service.Remove(idx)
 	if !status || err != nil {
 		c.bot.Send(tgbotapi.NewMessage(msg.Chat.ID, fmt.Sprintf("Unable remove TheService: %s", err)))
 		return err
