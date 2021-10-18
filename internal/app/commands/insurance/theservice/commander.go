@@ -34,29 +34,41 @@ func NewInsuranceTheServiceCommander(
 }
 
 func (c *InsuranceTheServiceCommander) HandleCallback(callback *tgbotapi.CallbackQuery, callbackPath path.CallbackPath) {
+	var err error
+
 	switch callbackPath.CallbackName {
 	case "list":
-		c.CallbackList(callback, callbackPath)
+		err = c.CallbackList(callback, callbackPath)
 	default:
 		log.Printf("InsuranceTheServiceCommander.HandleCallback: unknown callback name: %s", callbackPath.CallbackName)
+	}
+
+	if err != nil {
+		log.Printf("HandleCallback failed! [%+v] [%+v]", callbackPath, err)
 	}
 }
 
 func (c *InsuranceTheServiceCommander) HandleCommand(msg *tgbotapi.Message, commandPath path.CommandPath) {
+	var err error
+
 	switch commandPath.CommandName {
 	case "help":
-		c.Help(msg)
+		err = c.Help(msg)
 	case "get":
-		c.Get(msg)
+		err = c.Get(msg)
 	case "list":
-		c.List(msg)
+		err = c.List(msg)
 	case "delete":
-		c.Delete(msg)
+		err = c.Delete(msg)
 	case "new":
-		c.New(msg)
+		err = c.New(msg)
 	case "edit":
-		c.Edit(msg)
+		err = c.Edit(msg)
 	default:
-		c.Default(msg)
+		err = c.Default(msg)
+	}
+
+	if err != nil {
+		log.Printf("HandleCommand failed! [%+v] [%+v]", commandPath, err)
 	}
 }
