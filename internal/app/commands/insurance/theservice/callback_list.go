@@ -20,7 +20,7 @@ func (c *InsuranceTheServiceCommander) CallbackList(callback *tgbotapi.CallbackQ
 		return err
 	}
 
-	outputMsgText := c.ListText(uint64(parsedData.Offset), PAGER)
+	outputMsgText := c.ListText(uint64(parsedData.Offset), pager)
 	msg := tgbotapi.NewEditMessageText(callback.Message.Chat.ID, callback.Message.MessageID, outputMsgText)
 	markup := c.ListKeyboard(uint64(parsedData.Offset))
 	msg.ReplyMarkup = &markup
