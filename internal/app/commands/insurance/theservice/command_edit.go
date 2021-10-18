@@ -14,8 +14,6 @@ import (
 func (c *InsuranceTheServiceCommander) Edit(msg *tgbotapi.Message) error {
 	newservice := theservice.TheService{}
 
-	println(msg.Text)
-
 	data := msg.CommandArguments()
 	if data == "" {
 		c.bot.Send(tgbotapi.NewMessage(msg.Chat.ID, "Please provide arguments, like:\n/edit__insurance__theservice 1 {\"title\":\"example\"}"))
