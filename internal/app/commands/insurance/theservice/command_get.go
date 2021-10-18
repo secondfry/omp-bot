@@ -18,13 +18,13 @@ func (c *InsuranceTheServiceCommander) Get(msg *tgbotapi.Message) error {
 
 	idx, err := strconv.ParseUint(data, 10, 64)
 	if err != nil {
-		c.bot.Send(tgbotapi.NewMessage(msg.Chat.ID, fmt.Sprintf("Unable to parse ID: %s", err)))
+		c.bot.Send(tgbotapi.NewMessage(msg.Chat.ID, fmt.Sprintf("Unable to parse ID: %+v", err)))
 		return err
 	}
 
 	product, err := c.service.Describe(idx)
 	if err != nil {
-		c.bot.Send(tgbotapi.NewMessage(msg.Chat.ID, fmt.Sprintf("Couldn't get TheService: %s", err)))
+		c.bot.Send(tgbotapi.NewMessage(msg.Chat.ID, fmt.Sprintf("Couldn't get TheService: %+v", err)))
 		return err
 	}
 

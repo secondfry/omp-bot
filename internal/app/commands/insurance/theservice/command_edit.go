@@ -30,20 +30,20 @@ func (c *InsuranceTheServiceCommander) Edit(msg *tgbotapi.Message) error {
 
 	idx, err := strconv.ParseUint(parts[0], 10, 64)
 	if err != nil {
-		c.bot.Send(tgbotapi.NewMessage(msg.Chat.ID, fmt.Sprintf("Unable to parse ID: %s", err)))
+		c.bot.Send(tgbotapi.NewMessage(msg.Chat.ID, fmt.Sprintf("Unable to parse ID: %+v", err)))
 		return err
 	}
 
 	json_data := strings.Join(parts[1:], " ")
 	err = json.Unmarshal([]byte(json_data), &newservice)
 	if err != nil {
-		c.bot.Send(tgbotapi.NewMessage(msg.Chat.ID, fmt.Sprintf("Couldn't parse JSON: %s", err)))
+		c.bot.Send(tgbotapi.NewMessage(msg.Chat.ID, fmt.Sprintf("Couldn't parse JSON: %+v", err)))
 		return err
 	}
 
 	err = c.service.Update(idx, newservice)
 	if err != nil {
-		c.bot.Send(tgbotapi.NewMessage(msg.Chat.ID, fmt.Sprintf("Couldn't create TheService: %s", err)))
+		c.bot.Send(tgbotapi.NewMessage(msg.Chat.ID, fmt.Sprintf("Couldn't create TheService: %+v", err)))
 		return err
 	}
 
