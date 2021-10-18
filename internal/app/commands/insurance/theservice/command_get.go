@@ -16,13 +16,13 @@ func (c *InsuranceTheServiceCommander) Get(msg *tgbotapi.Message) error {
 		return errors.New("empty data")
 	}
 
-	idx, err := strconv.ParseInt(data, 10, 0)
-	if idx < 0 || err != nil {
+	idx, err := strconv.ParseUint(data, 10, 64)
+	if err != nil {
 		c.bot.Send(tgbotapi.NewMessage(msg.Chat.ID, fmt.Sprintf("Unable to parse ID: %s", err)))
 		return err
 	}
 
-	product, err := c.service.Describe(uint64(idx))
+	product, err := c.service.Describe(idx)
 	if err != nil {
 		c.bot.Send(tgbotapi.NewMessage(msg.Chat.ID, fmt.Sprintf("Couldn't get TheService: %s", err)))
 		return err

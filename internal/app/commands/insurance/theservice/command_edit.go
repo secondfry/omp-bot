@@ -28,8 +28,8 @@ func (c *InsuranceTheServiceCommander) Edit(msg *tgbotapi.Message) error {
 		return errors.New("too few arguments")
 	}
 
-	idx, err := strconv.ParseInt(parts[0], 10, 0)
-	if idx < 0 || err != nil {
+	idx, err := strconv.ParseUint(parts[0], 10, 64)
+	if err != nil {
 		c.bot.Send(tgbotapi.NewMessage(msg.Chat.ID, fmt.Sprintf("Unable to parse ID: %s", err)))
 		return err
 	}
@@ -41,7 +41,7 @@ func (c *InsuranceTheServiceCommander) Edit(msg *tgbotapi.Message) error {
 		return err
 	}
 
-	err = c.service.Update(uint64(idx), newservice)
+	err = c.service.Update(idx, newservice)
 	if err != nil {
 		c.bot.Send(tgbotapi.NewMessage(msg.Chat.ID, fmt.Sprintf("Couldn't create TheService: %s", err)))
 		return err
