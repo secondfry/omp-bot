@@ -28,9 +28,9 @@ func (c *InsuranceTheServiceCommander) Get(msg *tgbotapi.Message) error {
 		return err
 	}
 
-	c.bot.Send(tgbotapi.NewMessage(
+	_, err = c.bot.Send(tgbotapi.NewMessage(
 		msg.Chat.ID,
 		product.String(),
 	))
-	return nil
+	return err
 }

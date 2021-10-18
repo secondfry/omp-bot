@@ -59,9 +59,10 @@ func (c *InsuranceTheServiceCommander) ListKeyboard(cursor uint64) tgbotapi.Inli
 	return markup
 }
 
-func (c *InsuranceTheServiceCommander) List(inputMessage *tgbotapi.Message) {
+func (c *InsuranceTheServiceCommander) List(inputMessage *tgbotapi.Message) error {
 	outputMsgText := c.ListText(START, PAGER)
 	msg := tgbotapi.NewMessage(inputMessage.Chat.ID, outputMsgText)
 	msg.ReplyMarkup = c.ListKeyboard(START)
-	c.bot.Send(msg)
+	_, err := c.bot.Send(msg)
+	return err
 }

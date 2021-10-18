@@ -47,6 +47,6 @@ func (c *InsuranceTheServiceCommander) Edit(msg *tgbotapi.Message) error {
 		return err
 	}
 
-	c.bot.Send(tgbotapi.NewMessage(msg.Chat.ID, fmt.Sprintf("Changed #%d", idx)))
-	return nil
+	_, err = c.bot.Send(tgbotapi.NewMessage(msg.Chat.ID, fmt.Sprintf("Changed #%d", idx)))
+	return err
 }
